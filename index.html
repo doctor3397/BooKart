@@ -6,12 +6,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
   </head>
   <body>
 
-    <div id="header-wrapper">
-      <span class="logo pull-left">BooKart}</span>
-      <span class="tagline pull-left">We have 1 million books for you</span>
+    <div id="header-wrapper" ng-controller="HeaderCtrl">
+      <span class="logo pull-left">{{appDetails.title}}</span>
+      <span class="tagline pull-left">{{appDetails.tagline}}</span>
       <div class="nav-wrapper pull-left">
         <ul class="nav nav-pills">
             <li class="active"><a href="#">Books</a></li>
