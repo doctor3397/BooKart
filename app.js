@@ -108,11 +108,21 @@ myApp.factory("kartService", function() {
 });
 
 // Controllers
-myApp.controller("HeaderCtrl", function($scope){
+myApp.controller("HeaderCtrl", function($scope, $location){
   $scope.appDetails = {
     title: "BooKart",
     tagline: "We have 1 million books for you"
   };
+
+  $scope.nav = {};
+  $scope.nav.isActive = function(path){
+    // console.log($location);
+    // console.log($location.path);
+    if (path === $location.path()) {
+      return true;
+    }
+    return false;
+  }
 });
 
 myApp.controller("BookListCtrl", function($scope, bookService, kartService) { // inject the bookService dependency
