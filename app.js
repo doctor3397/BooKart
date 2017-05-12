@@ -1,5 +1,7 @@
+// Module
 var myApp = angular.module("myApp", ["ngRoute"]);
 
+// Routes
 myApp.config(function($routeProvider) {
 	$routeProvider
 		.when("/books", {
@@ -15,15 +17,11 @@ myApp.config(function($routeProvider) {
   	});
 });
 
-myApp.controller("HeaderCtrl", function($scope){
-  $scope.appDetails = {
-    title: "BooKart",
-    tagline: "We have 1 million books for you"
-  };
-});
-
-myApp.controller("BookListCtrl", function($scope) {
-	$scope.books = [
+// Dependency
+// "bookService" name of the dependency
+// factory functuon
+myApp.factory("bookService", function() {
+  var books = [
 		{
 			imgUrl: "adultery.jpeg",
 			name: "Adultery",
@@ -85,16 +83,50 @@ myApp.controller("BookListCtrl", function($scope) {
 			details: "Wings of Fire traces the life and times of India's former president A.P.J. Abdul Kalam. It gives a glimpse of his childhood as well as his growth as India's Missile Man. Summary of the Book Wings... View More"
 		}
 	];
+  return {
+    getBooks: function() {
+      return books;
+    },
+    // addToKart: function(book) {
+    // }
+  }
+});
 
-	$scope.addToKart = function(book) {
-		console.log("add to kart: ", book);
+myApp.factory("kartService", function() {
+  var kart = [];
+  return {
+		getKart: function() {
+			return kart;
+		},
+		addToKart: function(book) {
+			kart.push(book);
+		},
+		buy: function(book) {
+			alert("Thanks for buying: ", book.name);
+		}
 	}
 });
 
-myApp.controller("KartListCtrl", function($scope) {
-  $scope.kart = [];
+// Controllers
+myApp.controller("HeaderCtrl", function($scope){
+  $scope.appDetails = {
+    title: "BooKart",
+    tagline: "We have 1 million books for you"
+  };
+});
+
+myApp.controller("BookListCtrl", function($scope, bookService, kartService) { // inject the bookService dependency
+	$scope.books = bookService.getBooks();
+
+	$scope.addToKart = function(book) {
+		kartService.addToKart(book);
+	}
+});
+
+myApp.controller("KartListCtrl", function($scope, kartService) { // inject the kartService dependency
+  $scope.kart = kartService.getKart();
 
   $scope.buy = function(book) {
-    console.log("buy: ", book);
+    kartService.buy(book);
   }
 });
